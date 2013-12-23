@@ -15,13 +15,13 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
-import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
 import org.bukkit.entity.Player;
@@ -64,11 +64,22 @@ public class Permission_PermissionsEx extends Permission {
             }
         }
         
-        JsonParser parser = new JsonParser();
-        JsonArray ranksJson = parser.parse(new InputStreamReader(getClass().getResourceAsStream("ranks.json"))).getAsJsonArray();
-        ranks = new ArrayList<String>();
-        for (JsonElement json : ranksJson) {
-            ranks.add(json.getAsString());
+        File ranksFile = new File(plugin.getDataFolder(), "ranks.json");
+        FileReader reader = null;
+        
+        try  {
+            JsonParser parser = new JsonParser();
+            reader = new FileReader(ranksFile);
+            JsonElement ranksJson = parser.parse(reader);
+            
+            System.out.println(ranksJson);
+            ranks = new ArrayList<String>();
+            
+            for (JsonElement json : ranksJson.getAsJsonArray()) {
+                ranks.add(json.getAsString());
+            }
+        }catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
