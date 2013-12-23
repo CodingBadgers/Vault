@@ -46,6 +46,10 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<url>http://repo.bukkit.org/content/groups/public/</url>
 		</repository>
 		<repository>
+			<id>codingbadgers-repo</id>
+			<url>http://repository-codingbadgers.forge.cloudbees.com/snapshot/</url>
+		</repository>
+		<repository>
 			<id>sdfeconomy-repo</id>
 			<url>http://omwah.sdf.org/maven/repo/snapshots/</url>
 		</repository>
@@ -68,6 +72,13 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>${bukkitVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>uk.thecodingbadgers</groupId>
+			<artifactId>bConomy</artifactId>
+			<version>1.1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/bConomy.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.gmail.bleedobsidian.miconomy</groupId>
@@ -373,6 +384,7 @@ Vault currently supports the following: Permissions 3, PEX, GroupManager, bPerms
 				<filtering>true</filtering>
 				<includes>
 					<include>plugin.yml</include>
+					<include>ranks.json</include>
 				</includes>
 			</resource>
 		</resources>

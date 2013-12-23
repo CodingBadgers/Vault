@@ -103,6 +103,7 @@ import org.w3c.dom.NodeList;
 import com.nijikokun.register.payment.Methods;
 import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 import net.milkbowl.vault.economy.plugins.Economy_MiConomy;
+import net.milkbowl.vault.economy.plugins.Economy_bConomy;
 
 public class Vault extends JavaPlugin {
 
@@ -288,6 +289,9 @@ public class Vault extends JavaPlugin {
         
         // Try to load TAEcon
         hookEconomy("TAEcon", Economy_TAEcon.class, ServicePriority.Normal, "net.teamalpha.taecon.TAEcon");
+        
+        // Try to load TAEcon
+        hookEconomy("bConomy", Economy_bConomy.class, ServicePriority.High, "uk.badger.bConomy.bConomy");
     }
 
     /**

@@ -15,9 +15,15 @@
  */
 package net.milkbowl.vault.permission.plugins;
 
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,6 +40,7 @@ public class Permission_PermissionsEx extends Permission {
 
     private final String name = "PermissionsEx";
     private PermissionsEx permission = null;
+    private List<String> ranks = null;
 
     public Permission_PermissionsEx(Plugin plugin) {
         this.plugin = plugin;
@@ -55,6 +62,13 @@ public class Permission_PermissionsEx extends Permission {
                     log.info(String.format("[%s][Permission] %s hooked.", plugin.getDescription().getName(), name));
                 }
             }
+        }
+        
+        JsonParser parser = new JsonParser();
+        JsonArray ranksJson = parser.parse(new InputStreamReader(getClass().getResourceAsStream("ranks.json"))).getAsJsonArray();
+        ranks = new ArrayList<String>();
+        for (JsonElement json : ranksJson) {
+            ranks.add(json.getAsString());
         }
     }
 
@@ -194,13 +208,18 @@ public class Permission_PermissionsEx extends Permission {
     @Override
     public String getPrimaryGroup(String world, String playerName) {
         PermissionUser user = PermissionsEx.getPermissionManager().getUser(playerName);
+        
         if (user == null) {
             return null;
-        } else if (user.getGroupsNames(world).length > 0) {
-            return user.getGroupsNames(world)[0];
-        } else {
-            return null;
         }
+        
+        for (String group : user.getGroupsNames(world)) {
+            if (ranks.contains(group)) {
+                return group;
+            }
+        }
+        
+        return null;
     }
 
     @Override
