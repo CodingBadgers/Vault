@@ -136,7 +136,7 @@ public class Vault extends JavaPlugin {
 
         // Schedule to check the version every 30 minutes for an update. This is to update the most recent 
         // version so if an admin reconnects they will be warned about newer versions.
-        this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+        /* this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
 
             @Override
             public void run() {
@@ -151,7 +151,7 @@ public class Vault extends JavaPlugin {
                 }
             }
 
-        }, 0, 432000);
+        }, 0, 432000); */
 
         // Load up the Plugin metrics
         try {
@@ -290,8 +290,8 @@ public class Vault extends JavaPlugin {
         // Try to load TAEcon
         hookEconomy("TAEcon", Economy_TAEcon.class, ServicePriority.Normal, "net.teamalpha.taecon.TAEcon");
         
-        // Try to load TAEcon
-        hookEconomy("bConomy", Economy_bConomy.class, ServicePriority.High, "uk.badger.bConomy.bConomy");
+        // Try to load bConomy
+        hookEconomy("bConomy", Economy_bConomy.class, ServicePriority.High, "uk.thecodingbadgers.bConomy.bConomy");
     }
 
     /**
@@ -367,6 +367,7 @@ public class Vault extends JavaPlugin {
                 log.info(String.format("[%s][Economy] %s found: %s", getDescription().getName(), name, econ.isEnabled() ? "Loaded" : "Waiting"));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             log.severe(String.format("[%s][Economy] There was an error hooking %s - check to make sure you're using a compatible version!", getDescription().getName(), name));
         }
     }

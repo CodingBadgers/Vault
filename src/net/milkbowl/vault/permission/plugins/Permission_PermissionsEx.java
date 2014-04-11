@@ -72,7 +72,6 @@ public class Permission_PermissionsEx extends Permission {
             reader = new FileReader(ranksFile);
             JsonElement ranksJson = parser.parse(reader);
             
-            System.out.println(ranksJson);
             ranks = new ArrayList<String>();
             
             for (JsonElement json : ranksJson.getAsJsonArray()) {

@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -26,20 +25,24 @@ public class Economy_bConomy implements Economy {
 
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    private final String name = "bConomy 1";
-    private JavaPlugin plugin = null;
+    private final String name = "bConomy";
+    private Plugin plugin = null;
     protected bConomy economy = null;
 
-    public Economy_bConomy(JavaPlugin plugin) {
+    public Economy_bConomy(Plugin plugin) {
         this.plugin = plugin;
         Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
         // Load Plugin in case it was loaded before
-        if (economy == null) {
-            Plugin ec = plugin.getServer().getPluginManager().getPlugin("iConomy");
-            if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("uk.badger.bConomy.bConomy")) {
-                economy = (bConomy) ec;
-                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+        try {
+            if (economy == null) {
+                Plugin ec = plugin.getServer().getPluginManager().getPlugin("bConomy");
+                if (ec != null && ec.isEnabled() && ec.getClass().getName().equals("uk.badger.bConomy.bConomy")) {
+                    economy = (bConomy) ec;
+                    log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), name));
+                }
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
